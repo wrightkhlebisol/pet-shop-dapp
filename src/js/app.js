@@ -75,6 +75,21 @@ App = {
 	},
 
 	markAdopted: function (adopters, account) {
+		let adoptionInstance;
+
+		App.contracts.Adoption.deployed().then(instance => {
+			adoptionInstance = instance;
+
+			return adoptionInstance.getAdopters.call();
+
+		}).then(adopters => {
+			for (let i = 0; i < adopters.length; i++) {
+				if (adopters[i] !== '0x000000000000000000000000000000000000') {
+					$('.panel-pet').eq(i).find('button').text('Success').attr('disable', true);
+				}
+
+			}
+		}).catch(err => console.log(err.message));
 
 	},
 
@@ -82,6 +97,8 @@ App = {
 		event.preventDefault();
 
 		var petId = parseInt($(event.target).data('id'));
+
+		console.log(petId);
 
 		/*
 		 * Replace me...
