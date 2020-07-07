@@ -18,7 +18,7 @@ contract Adoption {
     // Retreiving the adopters
     // memory gives data location of the adopters variable
     // view means function doesnt modify state of contract
-    function getadopters() public view returns (address[16] memory){
+    function getAdopters() public view returns (address[16] memory){
         return adopters;
     }
 
