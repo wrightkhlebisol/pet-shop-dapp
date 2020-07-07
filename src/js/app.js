@@ -84,7 +84,7 @@ App = {
 
 		}).then(adopters => {
 			for (let i = 0; i < adopters.length; i++) {
-				if (adopters[i] !== '0x000000000000000000000000000000000000') {
+				if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
 					$('.panel-pet').eq(i).find('button').text('Success').attr('disable', true);
 				}
 
@@ -98,11 +98,24 @@ App = {
 
 		var petId = parseInt($(event.target).data('id'));
 
-		console.log(petId);
+		let adoptionInstance;
 
-		/*
-		 * Replace me...
-		 */
+		web3.eth.getAccounts((error, accounts) => {
+			if (error) console.log(error);
+
+			let account = accounts[0];
+
+			App.contracts.Adoption.deployed().then(instance => {
+					adoptionInstance = instance
+
+					// Execute adopt as a transaction by sending account
+					return adoptionInstance.adopt(petId, {
+						from: account
+					});
+				})
+				.then(result => App.markAdopted())
+				.catch(err => console.log(err.message));
+		});
 	}
 
 };
