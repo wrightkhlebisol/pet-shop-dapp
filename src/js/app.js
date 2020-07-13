@@ -35,6 +35,7 @@ App = {
 				await window.ethereum.enable();
 			} catch (err) {
 				// User denied account access
+				alert(err.message);
 				console.error("user denied account access");
 			}
 		}
@@ -79,7 +80,6 @@ App = {
 
 		App.contracts.AdoptAPet.deployed().then(instance => {
 				adoptionInstance = instance;
-				console.log(adoptionInstance)
 
 				return adoptionInstance.getAdopters.call();
 
@@ -91,7 +91,10 @@ App = {
 
 				}
 			})
-			.catch(err => console.log(err.message));
+			.catch(err => {
+				alert(err.message);
+				console.log(err.message)
+			});
 
 	},
 
@@ -103,7 +106,10 @@ App = {
 		let adoptionInstance;
 
 		web3.eth.getAccounts((error, accounts) => {
-			if (error) console.log(error);
+			if (error) {
+				alert(err.message);
+				console.log(error);
+			}
 
 			let account = accounts[0];
 
@@ -116,7 +122,10 @@ App = {
 					});
 				})
 				.then(result => App.markAdopted())
-				.catch(err => console.log(err.message));
+				.catch(err => {
+					alert(err.message);
+					console.log(err.message)
+				});
 		});
 	}
 
