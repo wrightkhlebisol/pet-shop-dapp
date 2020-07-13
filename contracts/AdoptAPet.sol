@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-contract Adoption {
+contract AdoptAPet {
     // Declare public variable - get automatic getter methods
     // but beacuse we have an array, the getter needs a key and we can only return a single value
     address[16] public adopters;

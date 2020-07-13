@@ -55,13 +55,13 @@ App = {
 	},
 
 	initContract: function () {
-		$.getJSON('Adoption.json', function (data) {
+		$.getJSON('AdoptAPet.json', function (data) {
 			// Get the necessary contract artifact file and instantiate it with @truffle/contract
 			let AdoptionArtifact = data;
-			App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+			App.contracts.AdoptAPet = TruffleContract(AdoptionArtifact);
 
 			// Set the provider for our contract
-			App.contracts.Adoption.setProvider(App.web3Provider);
+			App.contracts.AdoptAPet.setProvider(App.web3Provider);
 
 			// Use our contract to retrieve and mark the adopted pets
 			return App.markAdopted();
@@ -75,21 +75,23 @@ App = {
 	},
 
 	markAdopted: function (adopters, account) {
-		let adoptionInstance;
+		var adoptionInstance;
 
-		App.contracts.Adoption.deployed().then(instance => {
-			adoptionInstance = instance;
+		App.contracts.AdoptAPet.deployed().then(instance => {
+				adoptionInstance = instance;
+				console.log(adoptionInstance)
 
-			return adoptionInstance.getAdopters.call();
+				return adoptionInstance.getAdopters.call();
 
-		}).then(adopters => {
-			for (let i = 0; i < adopters.length; i++) {
-				if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-					$('.panel-pet').eq(i).find('button').text('Success').attr('disable', true);
+			}).then(adopters => {
+				for (let i = 0; i < adopters.length; i++) {
+					if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
+						$('.panel-pet').eq(i).find('button').text('Success').attr('disable', true);
+					}
+
 				}
-
-			}
-		}).catch(err => console.log(err.message));
+			})
+			.catch(err => console.log(err.message));
 
 	},
 
@@ -105,7 +107,7 @@ App = {
 
 			let account = accounts[0];
 
-			App.contracts.Adoption.deployed().then(instance => {
+			App.contracts.AdoptAPet.deployed().then(instance => {
 					adoptionInstance = instance
 
 					// Execute adopt as a transaction by sending account
